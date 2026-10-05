@@ -1,0 +1,14 @@
+# Django
+*.pyc
+__pycache__/
+db.sqlite3
+
+# Environment variables / secrets
+.env
+
+# Virtual environments
+ve1/
+venv/
+
+# macOS
+.DS_Store
