@@ -20,6 +20,7 @@ from core import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/businesses/',views.get_businesses),
-    path('api/business/',views.create_business),
+   # path('api/businesses/',views.get_businesses),
+   # path('api/business/',views.create_business),
+    path('api/application/', views.create_application),
 ]
