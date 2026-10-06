@@ -36,7 +36,7 @@ export default function Landing() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
 
               <Link
-                to="/business"
+                to="/application"
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-6 py-3.5 font-semibold text-white transition hover:bg-slate-800"
               >
                 I'm a Business Owner
