@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import api from "../api/axios";
 
 const ApplicationContext = createContext();
 
@@ -19,7 +20,6 @@ const createEmptyApplication = () => ({
     amount: "",
     purpose: "",
     tenure: "",
-    monthlyRepayment: "",
   },
 
   documents: {
@@ -108,12 +108,76 @@ export function ApplicationProvider({ children }) {
     }));
   };
 
-  const submitApplication = () => {
+const submitApplication = async () => {
+  try {
+    const payload = {
+      application_id: application.applicationId,
+
+      business: {
+        name: application.business.businessName,
+        type: application.business.businessType,
+        years: Number(application.business.yearsInBusiness),
+        city: application.business.city,
+      },
+
+      loan: {
+        amount: application.loan.amount,
+        purpose: application.loan.purpose,
+        tenure: Number(application.loan.tenure),
+      },
+
+      documents: [
+        ...application.documents.upiTransactions.map((doc) => ({
+          document_type: "upi_transactions",
+          file_url: doc.fileUrl || doc.file_url || "",
+          file_name: doc.fileName || doc.file_name || "",
+        })),
+
+        ...application.documents.bills.map((doc) => ({
+          document_type: "bills",
+          file_url: doc.fileUrl || doc.file_url || "",
+          file_name: doc.fileName || doc.file_name || "",
+        })),
+
+        ...application.documents.invoices.map((doc) => ({
+          document_type: "invoices",
+          file_url: doc.fileUrl || doc.file_url || "",
+          file_name: doc.fileName || doc.file_name || "",
+        })),
+
+        ...application.documents.ledgers.map((doc) => ({
+          document_type: "ledgers",
+          file_url: doc.fileUrl || doc.file_url || "",
+          file_name: doc.fileName || doc.file_name || "",
+        })),
+      ],
+    };
+
+    const response = await api.post("/applications/", payload);
+
+    console.log("Application submitted:", response.data);
+
     setApplication((prev) => ({
       ...prev,
       status: "SUBMITTED",
     }));
-  };
+
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (error) {
+    console.error(
+      "Application submission failed:",
+      error.response?.data || error.message
+    );
+
+    return {
+      success: false,
+      error: error.response?.data || error.message,
+    };
+  }
+};
 
   const resetApplication = () => {
     localStorage.removeItem(STORAGE_KEY);

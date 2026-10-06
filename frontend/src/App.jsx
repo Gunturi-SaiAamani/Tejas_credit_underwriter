@@ -8,10 +8,7 @@ import LenderDashboard from "./pages/LenderDashboard"
 import LoanInformation from "./pages/LoanInformation"
 import Documents from "./pages/Documents"
 import Review from "./pages/Review"
-import Login from "./pages/Login"
 import OwnerDashboard from "./pages/OwnerDashboard"
-import Register from "./pages/Register"
-import OTP from "./pages/OTP"
 import Application from "./pages/Application"
 
 const App = () => {

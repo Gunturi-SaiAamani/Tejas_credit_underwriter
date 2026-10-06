@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useApplication } from "../context/ApplicationContext";
@@ -7,9 +8,10 @@ function Application() {
 
   const { application, createApplication } = useApplication();
 
-  const handleStart = () => {
-    const applicationId = createApplication();
+  const isSubmitted = application.status === "SUBMITTED";
 
+  const handleStart = () => {
+    createApplication();
     navigate("/dashboard");
   };
 
@@ -32,7 +34,7 @@ function Application() {
 
         <div className="mt-8 flex flex-col items-center gap-3">
 
-          {!application.applicationId ? (
+          {!application.applicationId || isSubmitted ? (
             <button
               onClick={handleStart}
               className="flex items-center gap-2 rounded-xl bg-black px-6 py-3 text-sm font-medium text-white"
